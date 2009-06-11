@@ -34,7 +34,7 @@ built against %{name}.
 
 %package -n %{develname}
 Summary:	qrupdate development files
-Group:		Development/Fortran
+Group:		Development/Other
 Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 
