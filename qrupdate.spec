@@ -15,7 +15,7 @@ License:	GPLv3+
 Group:		Development/Other
 Url:		http://qrupdate.sourceforge.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires:	gcc-gfortran
+BuildRequires:	gcc-gfortran, blas-devel, lapack-devel
 
 %description
 qrupdate is a Fortran library for fast updates of QR and Cholesky
