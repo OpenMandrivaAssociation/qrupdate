@@ -53,6 +53,10 @@ that use %{name}.
 
 %install
 %__rm -rf %{buildroot}
+
+%ifarch x86_64
+%__sed -i 's,\/lib\/,\/lib64\/,g' src/Makefile
+%endif
 %make PREFIX=%{buildroot}/usr install
 
 %clean
