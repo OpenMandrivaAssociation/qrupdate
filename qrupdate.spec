@@ -1,10 +1,10 @@
 %define name	qrupdate
-%define version 1.1.1
+%define version 1.1.2
 %define release %mkrel 1
 %define major	1
 
 %define libname %mklibname %name %major
-%define develname %mklibname %name -d
+%define develname %mklibname %name -d -s
 
 Summary:	Fortran library for fast updates of QR/Cholesky decompositions
 Name:		%{name}
@@ -14,8 +14,8 @@ Source0:	%{name}-%{version}.tar.gz
 License:	GPLv3+
 Group:		Development/Other
 Url:		http://qrupdate.sourceforge.net/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	gcc-gfortran, blas-devel, lapack-devel
+Patch0:		qrupdate-1.1.1-Makefiles.patch
 
 %description
 qrupdate is a Fortran library for fast updates of QR and Cholesky
@@ -47,28 +47,31 @@ that use %{name}.
 
 %prep
 %setup -q
+%patch0 -p1
+
+sed -i Makeconf \
+	-e "s:LIBDIR=lib:LIBDIR=%{_libdir}:" \
+	-e "/^LIBDIR=/a\PREFIX=/" \
+	-e "s:LAPACK=.*:LAPACK=$(pkg-config --libs lapack):" \
+	-e "s:BLAS=.*:BLAS=$(pkg-config --libs blas):"
+
 
 %build
-%make lib solib
+#% make lib solib
+%make
 
 %install
-%__rm -rf %{buildroot}
 
-%ifarch x86_64
-%__sed -i 's,\/lib\/,\/lib64\/,g' src/Makefile
-%endif
-%make PREFIX=%{buildroot}/usr install
-
-%clean
-%__rm -rf %{buildroot}
+#% ifarch x86_64
+#% __sed -i 's,\/lib\/,\/lib64\/,g' src/Makefile
+#% endif
+#%make PREFIX=%{buildroot}/usr install
+%makeinstall_std
 
 %files -n %{libname}
-%defattr(-,root,root)
 %_libdir/*.so.*
 
 %files -n %{develname}
-%defattr(-,root,root)
 %doc README ChangeLog COPYING
 %_libdir/*.so
 %_libdir/*.a
-
