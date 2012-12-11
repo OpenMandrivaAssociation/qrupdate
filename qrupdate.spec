@@ -75,3 +75,18 @@ sed -i Makeconf \
 %doc README ChangeLog COPYING
 %_libdir/*.so
 %_libdir/*.a
+
+
+%changelog
+* Sat Apr 28 2012 Alexander Khrukin <akhrukin@mandriva.org> 1.1.2-1mdv2012.0
++ Revision: 794251
+- version update 1.1.2
+
+  + Stéphane Téletchéa <steletch@mandriva.org>
+    - update to new version 1.1.1
+
+* Thu Jun 11 2009 Lev Givon <lev@mandriva.org> 1.0.1-2mdv2010.0
++ Revision: 385211
+- Force rebuild.
+- imported package qrupdate
+
