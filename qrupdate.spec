@@ -67,6 +67,7 @@ sed -i Makeconf \
 #% endif
 #%make PREFIX=%{buildroot}/usr install
 %makeinstall_std
+chmod -R o+r %{buildroot}/src/debug/*
 
 %files -n %{libname}
 %_libdir/*.so.*
