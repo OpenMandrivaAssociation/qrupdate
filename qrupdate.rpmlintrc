@@ -1,0 +1,2 @@
+# find-debuginfo seems to be troubled by fortran code
+addFilter("E: non-readable") 

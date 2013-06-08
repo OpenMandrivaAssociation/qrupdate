@@ -9,13 +9,16 @@ Summary:	Fortran library for fast updates of QR/Cholesky decompositions
 Name:		qrupdate
 Version:	1.1.2
 Release:	2
-Source0:	%{name}-%{version}.tar.gz
 License:	GPLv3+
 Group:		Development/Other
 Url:		http://qrupdate.sourceforge.net/
-BuildRequires:	gcc-gfortran, blas-devel, lapack-devel
+Source0:	%{name}-%{version}.tar.gz
+Source100:	qrupdate.rpmlintrc
 Patch0:		qrupdate-1.1.1-Makefiles.patch
 Patch1:		qrupdate-enable_debugging.patch
+BuildRequires:	gcc-gfortran
+BuildRequires:	blas-devel
+BuildRequires:	lapack-devel
 
 %description
 qrupdate is a Fortran library for fast updates of QR and Cholesky
@@ -67,7 +70,6 @@ sed -i Makeconf \
 #% endif
 #%make PREFIX=%{buildroot}/usr install
 %makeinstall_std
-chmod -R o+r %{buildroot}/src/debug/*
 
 %files -n %{libname}
 %_libdir/*.so.*
