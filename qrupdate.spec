@@ -1,9 +1,7 @@
-%define name	qrupdate
-%define version 1.1.2
 %define major	1
 
-%define libname %mklibname %name %major
-%define develname %mklibname %name -d -s
+%define libname %mklibname %{name} %{major}
+%define develname %mklibname %{name} -d -s
 
 Summary:	Fortran library for fast updates of QR/Cholesky decompositions
 Name:		qrupdate
@@ -76,8 +74,8 @@ sed -i Makeconf \
 
 %files -n %{develname}
 %doc README ChangeLog COPYING
-%_libdir/*.so
-%_libdir/*.a
+%{_libdir}/*.so
+%{_libdir}/*.a
 
 
 %changelog
