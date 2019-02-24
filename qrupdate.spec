@@ -58,15 +58,15 @@ sed -i Makeconf \
 
 
 %build
-#% make lib solib
-%make_build
+#% make_build lib solib
+%make_build solib
 
 %install
 
 #% ifarch x86_64
 #% __sed -i 's,\/lib\/,\/lib64\/,g' src/Makefile
 #% endif
-#%make PREFIX=%{buildroot}/usr install
+#%make_install PREFIX=%{buildroot}/usr
 %make_install
 
 %files -n %{libname}
