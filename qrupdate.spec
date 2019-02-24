@@ -48,7 +48,7 @@ that use %{name}.
 
 %prep
 %setup -q
-%autopatche -p1
+%autopatch -p1
 
 sed -i Makeconf \
 	-e "s:LIBDIR=lib:LIBDIR=%{_libdir}:" \
