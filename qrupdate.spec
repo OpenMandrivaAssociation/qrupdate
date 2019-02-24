@@ -47,8 +47,8 @@ This package contains the files required for building programs
 that use %{name}.
 
 %prep
-%autosetup -q
-%autopatches -p1
+%setup -q
+%autopatche -p1
 
 sed -i Makeconf \
 	-e "s:LIBDIR=lib:LIBDIR=%{_libdir}:" \
