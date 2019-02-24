@@ -47,8 +47,8 @@ This package contains the files required for building programs
 that use %{name}.
 
 %prep
-%setup -q
-%apply_patches
+%autosetup -q
+%autopatches -p1
 
 sed -i Makeconf \
 	-e "s:LIBDIR=lib:LIBDIR=%{_libdir}:" \
@@ -59,7 +59,7 @@ sed -i Makeconf \
 
 %build
 #% make lib solib
-%make
+%make_build
 
 %install
 
@@ -67,7 +67,7 @@ sed -i Makeconf \
 #% __sed -i 's,\/lib\/,\/lib64\/,g' src/Makefile
 #% endif
 #%make PREFIX=%{buildroot}/usr install
-%makeinstall_std
+%make_install
 
 %files -n %{libname}
 %_libdir/*.so.*
