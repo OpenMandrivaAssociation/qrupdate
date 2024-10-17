@@ -9,7 +9,7 @@ Version:	1.1.2
 Release:	5
 License:	GPLv3+
 Group:		Development/Other
-Url:		http://qrupdate.sourceforge.net/
+Url:		https://qrupdate.sourceforge.net/
 Source0:	%{name}-%{version}.tar.gz
 Source100:	qrupdate.rpmlintrc
 Patch0:		qrupdate-1.1.1-Makefiles.patch
