@@ -1,6 +1,11 @@
-%define libname %mklibname %{name}
-%define develname %mklibname %{name} -d -s
-%define oldlibname %mklibname %{name} 1
+# For now -- since C code (built with clang) and
+# Fortran code (built with gfortran) are linked
+# together, LTO object files don't work
+%global _disable_lto 1
+
+%define libname		%mklibname %{name}
+%define devname		%mklibname %{name} -d
+%define oldlibname	%mklibname %{name} 1
 
 # BLAS lib
 %global blaslib flexiblas
@@ -8,17 +13,14 @@
 Summary:	Fortran library for fast updates of QR/Cholesky decompositions
 Name:		qrupdate
 Version:	1.1.5
-Release:	1
+Release:	2
 License:	GPLv3+
 Group:		Development/Other
 Url:		https://gitlab.mpi-magdeburg.mpg.de/koehlerm/qrupdate-ng
 Source0:	https://gitlab.mpi-magdeburg.mpg.de/koehlerm/qrupdate-ng/-/archive/v%{version}/%{name}-ng-v%{version}.tar.bz2
-#Source0:	%{name}-%{version}.tar.gz
 Source100:	qrupdate.rpmlintrc
-#Patch0:		qrupdate-1.1.1-Makefiles.patch
-#Patch1:		qrupdate-enable_debugging.patch
 BuildRequires:	gcc-gfortran
-BuildRequires:	pkgconfig(%blaslib)
+BuildRequires:	pkgconfig(%{blaslib})
 
 %description
 qrupdate is a Fortran library for fast updates of QR and Cholesky
@@ -43,20 +45,21 @@ built against %{name}.
 
 #-----------------------------------------------------------------------
 
-%package -n %{develname}
+%package -n %{devname}
 Summary:	qrupdate development files
 Group:		Development/Other
 Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
+%rename 	%mklibname %{name} -d -s
 
-%description -n %{develname}
+%description -n %{devname}
 qrupdate is a Fortran library for fast updates of QR and Cholesky
 decompositions.
 
 This package contains the files required for building programs
 that use %{name}.
 
-%files -n %{develname}
+%files -n %{devname}
 %license LICENSE
 %doc README.md CHANGELOG
 %{_libdir}/pkgconfig/*
@@ -68,28 +71,16 @@ that use %{name}.
 %prep
 %autosetup -p1 -n %{name}-ng-v%{version}
 
-#sed -i Makeconf \
-#	-e "s:LIBDIR=lib:LIBDIR=%{_libdir}:" \
-#	-e "/^LIBDIR=/a\PREFIX=/" \
-#	-e "s:LAPACK=.*:LAPACK=$(pkg-config --libs lapack):" \
-#	-e "s:BLAS=.*:BLAS=$(pkg-config --libs blas):"
-
+sed -i qrupdate.pc.in \
+	-e "s|Requires: blas, lapack|Requires: %{blaslib}|"
 
 %build
-#% make_build lib solib
-#make_build solib
-
 export FC=gfortran
 %cmake -Wno-dev \
+	-DBLA_VENDOR:STRING=FlexiBLAS \
 	-G Ninja
 %ninja_build
 
 %install
 %ninja_install -C build
-
-#% ifarch x86_64
-#% __sed -i 's,\/lib\/,\/lib64\/,g' src/Makefile
-#% endif
-#%make_install PREFIX=%{buildroot}/usr
-#make_install
 
