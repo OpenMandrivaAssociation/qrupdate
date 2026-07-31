@@ -12,8 +12,8 @@
 
 Summary:	Fortran library for fast updates of QR/Cholesky decompositions
 Name:		qrupdate
-Version:	1.1.5
-Release:	2
+Version:	1.2.0
+Release:	1
 License:	GPLv3+
 Group:		Development/Other
 Url:		https://gitlab.mpi-magdeburg.mpg.de/koehlerm/qrupdate-ng
@@ -69,7 +69,7 @@ that use %{name}.
 #-----------------------------------------------------------------------
 
 %prep
-%autosetup -p1 -n %{name}-ng-v%{version}
+%autosetup -p1 -n qrupdate-ng-v1.2.0
 
 sed -i qrupdate.pc.in \
 	-e "s|Requires: blas, lapack|Requires: %{blaslib}|"
